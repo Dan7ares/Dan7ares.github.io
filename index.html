@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daniel Santiago Amaya — AI & Automation Engineer</title>
+  <meta name="description" content="AI & Automation Engineer. Python, LLMs, algorithmic trading and telecom systems. Building in public daily.">
+  <meta property="og:title" content="Daniel Santiago Amaya — AI & Automation Engineer">
+  <meta property="og:description" content="Python · LLMs · Algorithmic Trading · Telecom. Building in public daily.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-card: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #00c6ff;
+      --accent-2: #7c3aed;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+    }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    /* ===== Nav ===== */
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(13, 17, 23, 0.85);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .container { display: flex; justify-content: space-between; align-items: center; height: 60px; }
+    nav .logo { font-weight: 700; color: var(--accent); text-decoration: none; font-size: 1.1rem; }
+    nav ul { display: flex; gap: 24px; list-style: none; }
+    nav a { color: var(--text-dim); text-decoration: none; font-size: 0.95rem; transition: color .2s; }
+    nav a:hover { color: var(--accent); }
+
+    /* ===== Hero ===== */
+    header {
+      padding: 110px 0 90px;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 20%, rgba(0, 198, 255, 0.12), transparent),
+        radial-gradient(ellipse 50% 40% at 20% 80%, rgba(124, 58, 237, 0.10), transparent);
+      text-align: center;
+    }
+    .badge-open {
+      display: inline-block; padding: 6px 16px; border-radius: 999px;
+      border: 1px solid var(--accent); color: var(--accent);
+      font-size: 0.85rem; margin-bottom: 24px;
+    }
+    h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); font-weight: 800; letter-spacing: -1px; }
+    h1 span { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .tagline { font-size: clamp(1.05rem, 2.5vw, 1.3rem); color: var(--text-dim); margin: 18px auto 0; max-width: 640px; }
+    .hero-links { margin-top: 36px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 26px; border-radius: 8px; text-decoration: none; font-weight: 600;
+      transition: transform .15s, box-shadow .15s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: linear-gradient(90deg, var(--accent), #0077b6); color: #001018; }
+    .btn-primary:hover { box-shadow: 0 6px 24px rgba(0, 198, 255, 0.35); }
+    .btn-ghost { border: 1px solid var(--border); color: var(--text); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ===== Sections ===== */
+    section { padding: 72px 0; }
+    h2 { font-size: 1.8rem; margin-bottom: 8px; }
+    h2::before { content: "// "; color: var(--accent); font-weight: 400; }
+    .section-sub { color: var(--text-dim); margin-bottom: 40px; }
+
+    /* ===== About ===== */
+    .about-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; align-items: start; }
+    .about-grid p + p { margin-top: 14px; }
+    .about-grid strong { color: var(--accent); }
+    .fact-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px;
+    }
+    .fact-card div { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 0.92rem; }
+    .fact-card div:last-child { border-bottom: none; }
+    .fact-card span:first-child { color: var(--text-dim); }
+
+    /* ===== Projects ===== */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 20px; }
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 26px; display: flex; flex-direction: column; gap: 12px;
+      transition: transform .15s, border-color .15s;
+    }
+    .card:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .card .emoji { font-size: 1.8rem; }
+    .card h3 { font-size: 1.12rem; }
+    .card p { color: var(--text-dim); font-size: 0.93rem; flex-grow: 1; }
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; }
+    .tag {
+      font-size: 0.75rem; padding: 3px 10px; border-radius: 999px;
+      background: rgba(0, 198, 255, 0.1); color: var(--accent); border: 1px solid rgba(0, 198, 255, 0.25);
+    }
+    .card a.repo-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; font-weight: 600; }
+    .card a.repo-link:hover { text-decoration: underline; }
+
+    /* ===== Daily banner ===== */
+    .daily {
+      background: linear-gradient(120deg, rgba(0,198,255,.08), rgba(124,58,237,.08));
+      border: 1px solid var(--border); border-radius: 14px; padding: 34px;
+      display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap;
+    }
+    .daily h3 { font-size: 1.3rem; margin-bottom: 6px; }
+    .daily p { color: var(--text-dim); max-width: 560px; }
+
+    /* ===== Skills ===== */
+    .skills-group { margin-bottom: 26px; }
+    .skills-group h3 { font-size: 1rem; color: var(--text-dim); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip {
+      padding: 8px 16px; border-radius: 8px; background: var(--bg-card);
+      border: 1px solid var(--border); font-size: 0.9rem;
+    }
+
+    /* ===== Footer ===== */
+    footer { border-top: 1px solid var(--border); padding: 48px 0; text-align: center; }
+    footer .links { display: flex; gap: 22px; justify-content: center; margin-bottom: 18px; }
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    footer .copy { color: var(--text-dim); font-size: 0.85rem; }
+
+    @media (max-width: 760px) {
+      .about-grid { grid-template-columns: 1fr; }
+      nav ul { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <a class="logo" href="#">DSA<span style="color:var(--text)">.dev</span></a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header>
+  <div class="container">
+    <div class="badge-open">🟢 Open to remote opportunities</div>
+    <h1>Daniel Santiago <span>Amaya</span></h1>
+    <p class="tagline">AI &amp; Automation Engineer — I build <strong style="color:var(--text)">LLM solutions, algorithmic trading systems and telecom tools</strong> with Python. Shipping in public, every day.</p>
+    <div class="hero-links">
+      <a class="btn btn-primary" href="#projects">View my work</a>
+      <a class="btn btn-ghost" href="https://github.com/Dan7ares" target="_blank" rel="noopener">GitHub ↗</a>
+      <a class="btn btn-ghost" href="mailto:dsamayab@gmail.com">Email me</a>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="container">
+    <h2>About</h2>
+    <p class="section-sub">Engineer at the intersection of AI, automation and telecom.</p>
+    <div class="about-grid">
+      <div>
+        <p>I work on <strong>AI &amp; prompt engineering at Ernst &amp; Young (EY)</strong>, leading end-to-end LLM solutions — from scoping with C-level stakeholders to production deployment — for enterprise clients across 7 countries in finance, retail and airport operations.</p>
+        <p>On the engineering side, I've built <strong>8+ algorithmic trading systems</strong> (MetaTrader 5, crypto exchanges via ccxt) with event-driven architectures, risk-first design and full test suites — plus telecom tooling rooted in my <strong>Telecommunications Engineering</strong> degree (ML-based spectrum sensing thesis).</p>
+        <p>I believe in <strong>building in public</strong>: I publish a new, fully-tested automation tool to GitHub every single day.</p>
+      </div>
+      <div class="fact-card">
+        <div><span>📍 Location</span><span>Bogotá, Colombia</span></div>
+        <div><span>🕐 Timezone</span><span>GMT-5</span></div>
+        <div><span>💼 Current</span><span>AI @ EY</span></div>
+        <div><span>🎓 Education</span><span>B.Eng. Telecom</span></div>
+        <div><span>🌐 Languages</span><span>ES · EN · FR</span></div>
+        <div><span>⚡ Focus</span><span>AI · Automation</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects" style="background: rgba(255,255,255,0.015);">
+  <div class="container">
+    <h2>Featured Projects</h2>
+    <p class="section-sub">Real systems, real code — every public repo ships with tests and CI.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="emoji">📈</div>
+        <h3>Algo-Trading Portfolio</h3>
+        <p>Architecture showcase of 8+ private algorithmic trading systems: event-driven MT5 framework, ML research pipelines, microservices and funding-rate carry via ccxt.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">MT5</span><span class="tag">ccxt</span><span class="tag">Docker</span></div>
+        <a class="repo-link" href="https://github.com/Dan7ares/algo-trading-portfolio" target="_blank" rel="noopener">View repo →</a>
+      </div>
+      <div class="card">
+        <div class="emoji">📡</div>
+        <h3>Spectrum Sensing for Cognitive Radio</h3>
+        <p>ML classifiers (Random Forest, LogReg, SVC) detecting spectrum occupancy from real antenna measurements — Telecommunications Engineering thesis.</p>
+        <div class="tags"><span class="tag">scikit-learn</span><span class="tag">pandas</span><span class="tag">SQLite</span></div>
+        <a class="repo-link" href="https://github.com/Dan7ares/spectrum-sensing-cognitive-radio" target="_blank" rel="noopener">View repo →</a>
+      </div>
+      <div class="card">
+        <div class="emoji">🛰️</div>
+        <h3>TelcoOps-Mini</h3>
+        <p>Miniature telecom NOC: asyncio device monitoring, automatic ticketing with load balancing, and a fully local LLM support chatbot (Ollama).</p>
+        <div class="tags"><span class="tag">asyncio</span><span class="tag">ZODB</span><span class="tag">Ollama</span><span class="tag">Docker</span></div>
+        <a class="repo-link" href="https://github.com/Dan7ares/telco-ops-mini" target="_blank" rel="noopener">View repo →</a>
+      </div>
+      <div class="card">
+        <div class="emoji">🧹</div>
+        <h3>Temp File Cleaner</h3>
+        <p>Find &amp; purge junk files with disk-space reporting. Safe dry-run by default. Zero dependencies, tested, CI-backed — part of the daily series.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">pytest</span><span class="tag">CI</span></div>
+        <a class="repo-link" href="https://github.com/Dan7ares/temp-file-cleaner" target="_blank" rel="noopener">View repo →</a>
+      </div>
+      <div class="card">
+        <div class="emoji">📱</div>
+        <h3>QR Code Generator</h3>
+        <p>Single or batch QR code generation from text, URLs or data files, with configurable colors — part of the daily series.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">Pillow</span><span class="tag">CI</span></div>
+        <a class="repo-link" href="https://github.com/Dan7ares/qr-code-generator" target="_blank" rel="noopener">View repo →</a>
+      </div>
+      <div class="card">
+        <div class="emoji">📶</div>
+        <h3>Antenna Link Calculator</h3>
+        <p>RF antenna parameter calculator for link analysis, built during my Telecommunications Engineering coursework.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">RF</span></div>
+        <a class="repo-link" href="https://github.com/Dan7ares/antenna-link-calculator" target="_blank" rel="noopener">View repo →</a>
+      </div>
+    </div>
+
+    <div class="daily" style="margin-top: 36px;">
+      <div>
+        <h3>⚡ Daily Automation Series</h3>
+        <p>One new, fully-tested automation tool published <strong style="color:var(--text)">every day</strong> — real code, pytest/vitest suites and green CI pipelines, alternating Python and TypeScript.</p>
+      </div>
+      <a class="btn btn-primary" href="https://github.com/Dan7ares?tab=repositories" target="_blank" rel="noopener">See the latest →</a>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="container">
+    <h2>Skills</h2>
+    <p class="section-sub">The tools I ship with.</p>
+    <div class="skills-group">
+      <h3>🧠 AI / LLM</h3>
+      <div class="chips">
+        <span class="chip">Claude API</span><span class="chip">OpenAI</span><span class="chip">LangChain</span>
+        <span class="chip">Prompt Engineering</span><span class="chip">RAG · Vector DBs</span><span class="chip">Ollama (local LLMs)</span>
+      </div>
+    </div>
+    <div class="skills-group">
+      <h3>⚙️ Engineering</h3>
+      <div class="chips">
+        <span class="chip">Python</span><span class="chip">TypeScript</span><span class="chip">PostgreSQL · SQL</span>
+        <span class="chip">asyncio</span><span class="chip">Docker</span><span class="chip">REST APIs</span>
+        <span class="chip">pytest · CI/CD</span><span class="chip">Git · GitHub Actions</span>
+      </div>
+    </div>
+    <div class="skills-group">
+      <h3>📊 Delivery</h3>
+      <div class="chips">
+        <span class="chip">Scrum · Agile</span><span class="chip">Jira</span><span class="chip">Technical pre-sales</span>
+        <span class="chip">Distributed teams</span><span class="chip">Power BI</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="container">
+    <h2 style="margin-bottom: 6px;">Contact</h2>
+    <p class="section-sub" style="margin-bottom: 28px;">Let's build intelligent automation together.</p>
+    <div class="links">
+      <a href="https://github.com/Dan7ares" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:dsamayab@gmail.com">dsamayab@gmail.com</a>
+      <!-- TODO: añadir LinkedIn cuando el usuario pase la URL -->
+    </div>
+    <p class="copy">© 2026 Daniel Santiago Amaya · Built with plain HTML/CSS, deployed on GitHub Pages</p>
+  </div>
+</footer>
+
+</body>
+</html>
