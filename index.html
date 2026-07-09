@@ -275,6 +275,39 @@
       .about-grid { grid-template-columns: 1fr; }
       .id-card { position: static; }
     }
+    /* ═══ SELECTOR DE IDIOMA ═══ */
+    .lang-wrap { position: relative; }
+    #langBtn {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(255,255,255,0.05); border: 1px solid var(--card-border);
+      color: var(--text); font-family: var(--mono); font-size: 0.82rem; font-weight: 600;
+      padding: 7px 13px; border-radius: 10px; cursor: pointer; transition: all .2s;
+    }
+    #langBtn:hover { border-color: var(--cyan); color: var(--cyan); }
+    #langMenu {
+      position: absolute; right: 0; top: calc(100% + 10px);
+      width: 230px; max-height: 340px; overflow-y: auto;
+      background: rgba(10, 14, 24, 0.95); border: 1px solid var(--card-border);
+      border-radius: 14px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      padding: 6px; display: none; z-index: 60;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.5);
+    }
+    #langMenu.open { display: block; }
+    #langMenu button {
+      display: flex; justify-content: space-between; align-items: center; width: 100%;
+      background: none; border: none; color: var(--dim); text-align: left;
+      font-family: var(--sans); font-size: 0.9rem; padding: 8px 12px;
+      border-radius: 9px; cursor: pointer; transition: all .15s;
+    }
+    #langMenu button:hover { background: rgba(34,211,238,0.08); color: var(--text); }
+    #langMenu button.active { color: var(--cyan); font-weight: 600; }
+    #langMenu .sep { height: 1px; background: var(--card-border); margin: 5px 8px; }
+    /* Oculta la barra y artefactos del widget de Google Translate */
+    .goog-te-banner-frame, .skiptranslate iframe, #goog-gt-tt,
+    .goog-te-balloon-frame, .goog-tooltip { display: none !important; }
+    body { top: 0 !important; }
+    font font { background: transparent !important; box-shadow: none !important; }
+
     @media (max-width: 620px) {
       nav ul { display: none; }
       .pgrid { grid-template-columns: 1fr; }
@@ -304,8 +337,15 @@
       <li><a href="#skills">Skills</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
+    <div class="lang-wrap notranslate">
+      <button id="langBtn" aria-haspopup="true" aria-expanded="false">🌐 <span id="langCur">EN</span></button>
+      <div id="langMenu" role="menu"></div>
+    </div>
   </div>
 </nav>
+
+<!-- Contenedor (oculto fuera de pantalla) que exige el widget de Google Translate -->
+<div id="google_translate_element" class="notranslate" style="position:fixed; left:-9999px; top:0;" aria-hidden="true"></div>
 
 <header>
   <div class="orb orb-1"></div>
@@ -322,7 +362,7 @@
           <a class="btn btn-line" href="https://www.linkedin.com/in/daniel-santiago-a-54b9141ab/" target="_blank" rel="noopener">LinkedIn</a>
         </div>
       </div>
-      <div class="term">
+      <div class="term notranslate">
         <div class="term-bar"><i></i><i></i><i></i><span>daniel@dsa-dev: ~</span></div>
         <div class="term-body" id="termBody"></div>
       </div>
@@ -608,6 +648,84 @@
       card.style.setProperty("--my", (e.clientY - r.top) + "px");
     });
   });
+
+  /* ── Selector de idioma (Google Translate bajo UI propia) ── */
+  // Inglés por defecto (idioma nativo de la página), español de segundo, luego el resto
+  const LANGS = [
+    ["en", "English", "EN"], ["es", "Español", "ES"],
+    ["pt", "Português", "PT"], ["fr", "Français", "FR"], ["de", "Deutsch", "DE"],
+    ["it", "Italiano", "IT"], ["nl", "Nederlands", "NL"], ["pl", "Polski", "PL"],
+    ["tr", "Türkçe", "TR"], ["ru", "Русский", "RU"], ["uk", "Українська", "UK"],
+    ["ar", "العربية", "AR"], ["hi", "हिन्दी", "HI"], ["zh-CN", "中文 (简体)", "ZH"],
+    ["ja", "日本語", "JA"], ["ko", "한국어", "KO"], ["vi", "Tiếng Việt", "VI"],
+    ["id", "Bahasa Indonesia", "ID"], ["th", "ไทย", "TH"], ["sv", "Svenska", "SV"],
+    ["da", "Dansk", "DA"], ["fi", "Suomi", "FI"], ["el", "Ελληνικά", "EL"],
+    ["he", "עברית", "HE"], ["ro", "Română", "RO"], ["cs", "Čeština", "CS"],
+    ["hu", "Magyar", "HU"],
+  ];
+
+  function currentLang() {
+    const m = document.cookie.match(/googtrans=\/en\/([^;]+)/);
+    return m ? decodeURIComponent(m[1]) : "en";
+  }
+
+  function setLang(code) {
+    const domains = ["", "domain=" + location.hostname, "domain=." + location.hostname];
+    if (code === "en") {
+      // Volver al idioma original: borrar la cookie en todas sus variantes
+      for (const d of domains) {
+        document.cookie = "googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;" + (d ? " " + d + ";" : "");
+      }
+    } else {
+      for (const d of domains) {
+        document.cookie = "googtrans=/en/" + code + "; path=/;" + (d ? " " + d + ";" : "");
+      }
+    }
+    location.reload();
+  }
+
+  const btn = document.getElementById("langBtn");
+  const menu = document.getElementById("langMenu");
+  const cur = currentLang();
+  const found = LANGS.find(l => l[0] === cur);
+  document.getElementById("langCur").textContent = found ? found[2] : cur.toUpperCase();
+
+  for (let i = 0; i < LANGS.length; i++) {
+    const [code, name, short] = LANGS[i];
+    const b = document.createElement("button");
+    b.setAttribute("role", "menuitem");
+    b.innerHTML = `<span>${name}</span><span style="font-family:var(--mono);font-size:.72rem;opacity:.6">${short}</span>`;
+    if (code === cur) b.classList.add("active");
+    b.addEventListener("click", () => setLang(code));
+    menu.appendChild(b);
+    if (i === 1) { // separador tras English y Español
+      const sep = document.createElement("div");
+      sep.className = "sep";
+      menu.appendChild(sep);
+    }
+  }
+
+  btn.addEventListener("click", e => {
+    e.stopPropagation();
+    const open = menu.classList.toggle("open");
+    btn.setAttribute("aria-expanded", open);
+  });
+  document.addEventListener("click", () => {
+    menu.classList.remove("open");
+    btn.setAttribute("aria-expanded", "false");
+  });
+
+  // Carga el widget de Google Translate (traduce solo si la cookie googtrans está puesta)
+  window.googleTranslateElementInit = function () {
+    new google.translate.TranslateElement(
+      { pageLanguage: "en", autoDisplay: false },
+      "google_translate_element"
+    );
+  };
+  const gs = document.createElement("script");
+  gs.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+  gs.defer = true;
+  document.head.appendChild(gs);
 })();
 </script>
 
